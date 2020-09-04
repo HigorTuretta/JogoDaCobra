@@ -24,6 +24,10 @@ p{
     transition: all .2s linear;
 }
 
+.iconesMenu{
+    width: 64px;
+}
+
 .barra{
     background-color: #333;
     height: 100%;
@@ -53,6 +57,7 @@ nav a{
 }
 .link:hover{
     background-color: #050542;
+    cursor: pointer;
 }
 
 #check:checked ~ #icone{
