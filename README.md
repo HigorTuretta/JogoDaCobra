@@ -5,7 +5,7 @@ trabalhar neste pequeno projetinho de estudo foi bastante produtivo e divertido.
 
 ## Conceitos Clássicos
 
-  Corra atrás do alimento, mas cuidado com você mesmo! Utilize as teclas direcionais para se movimentar e a tecla 'P' para pausar o game
+  Corra atrás do alimento, mas cuidado com você mesmo! Utilize as teclas direcionais para se movimentar e a tecla 'P' para pausar o game.
   
 ## Bugs relatados
 
