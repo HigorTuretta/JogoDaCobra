@@ -1,17 +1,14 @@
 window.onload = function (e) {
 
     const stage = document.getElementById('stage');
-    const pause = document.getElementById('pause');
     let pontos = document.getElementById('pontos');
     let recorde = document.getElementById('recordeAtual');
     pontos.value = 0;
-    recorde.value = 0;
+    recorde.value = localStorage.getItem('Recorde');
     const ctx = stage.getContext('2d');
-    const pausar = pause.getContext('2d');
     document.addEventListener("keydown", keyPush);
 
-    setInterval(game, 1000 / 15);
-
+    var intervalo = setInterval(game, 1000 / 15);
     const vel = 1;
     //velocidade e local inicial
     // velocidade x e velocidade y
@@ -34,7 +31,8 @@ window.onload = function (e) {
 
     var trail = [];
     var tail = 5;
-
+    
+    let gamePaused = false;
     function game() {
         //atualiza a posição da cabeça da cobra
         //recebendo a posição atual + a velocidade
@@ -65,34 +63,21 @@ window.onload = function (e) {
         ctx.fillStyle = patternGrass;
         ctx.fillRect(0, 0, stage.width, stage.height);
 
-        pausar.font = "30px Arial";
-        // Create gradient
-        var gradient = pausar.createLinearGradient(0, 0, pause.width, 0);
-        gradient.addColorStop("0", " yellow");
-        gradient.addColorStop("0.5", "green");
-        gradient.addColorStop("1.0", "yellow");
-        // Fill with gradient
-        pausar.fillStyle = gradient;
-        pausar.fillText("Jogo Pausado!", 200, 100);
-        pausar.fillText("Pressione Espaço para continuar.", 80, 150);
-
-
-
-
         ctx.fillStyle = 'red';
         ctx.fillRect(ax * tp, ay * tp, tp, tp);
 
         ctx.fillStyle = '#cfd141';
         for (let i = 0; i < trail.length; i++) {
-            ctx.fillRect(trail[i].x * tp, trail[i].y * tp, tp - 1, tp - 1);
+            ctx.fillRect(trail[i].x * tp, trail[i].y * tp, tp, tp);
             if (trail[i].x == px && trail[i].y == py) {
                 vx = vy = 0;
                 tail = 5;
-                if (pontos.value > recorde.value) {
+                if(recorde.value <= pontos.value){
                     recorde.value = pontos.value;
-                }
-                pontos.value = 0;
+                    localStorage.setItem('Recorde',recorde.value);
+                }             
 
+                pontos.value = 0;
             }
         }
         trail.push({ x: px, y: py })
@@ -107,9 +92,9 @@ window.onload = function (e) {
         }
     }
 
-
     function keyPush(event) {
         switch (event.keyCode) {
+            
             case 37://LEFT
                 if (vx == vel) {
                     break
@@ -142,17 +127,24 @@ window.onload = function (e) {
                     vy = vel;
                     break;
                 }
-            case 80:
-                document.getElementById("stage").style.display = "none";
-                document.getElementById("pause").style.display = "initial";
-                break;
-            case 32:
-                document.getElementById("pause").style.display = "none";
-                document.getElementById("stage").style.display = "initial";
+            case 80:                          
+                    pauseGame();
+                
                 break;
             default:
                 break;
         }
     }
     e.preventDefault();
+
+    function pauseGame() {
+        if (!gamePaused) {
+           clearInterval(intervalo);
+           
+          gamePaused = true;
+        } else if (gamePaused) {
+          intervalo = setInterval(game, 1000 / 15);
+          gamePaused = false;
+        }
+      }
 }

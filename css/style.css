@@ -153,9 +153,12 @@ body{
 #pause {
     display: none;
   }
+.pauseShow{
+    display: block;
+}
 
 
-@media screen and (max-width: 1350px){
+@media screen and (max-height: 800px){
     h1{
         font-size: 20px;
     }
